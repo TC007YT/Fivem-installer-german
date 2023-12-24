@@ -25,7 +25,7 @@ runCommand(){
     eval $COMMAND;
     BASH_CODE=$?
     if [ $BASH_CODE -ne 0 ]; then
-      echo -e "${red}An error occurred:${reset} ${white}${COMMAND}${reset}${red} returned${reset} ${white}${BASH_CODE}${reset}"
+      echo -e "${red}Ein Fehler ist aufgetreten:${reset} ${white}${COMMAND}${reset}${red} returned${reset} ${white}${BASH_CODE}${reset}"
       exit ${BASH_CODE}
     fi
 }
@@ -33,9 +33,9 @@ runCommand(){
 
 source <(curl -s https://raw.githubusercontent.com/JulianGransee/BashSelect.sh/main/BashSelect.sh)
 
-status "Install MariaDB/MySQL and phpmyadmin"
+status "MariaDB/MySQL und phpmyadmin Installieren?"
 
-export OPTIONS=("yes" "no")
+export OPTIONS=("ja" "nein")
 
 bashSelect
 
@@ -119,21 +119,21 @@ EOF
 }
 
 if [ "$EUID" -ne 0 ]; then
-	echo -e "${red}Please run as root";
+	echo -e "${red}Bitte als Root ausführen";
 	exit
 fi
 
 
 status "Select deployment type"
-export OPTIONS=("Install template via TxAdmin" "Use the cfx-server-data")
+export OPTIONS=("Vorlage über TxAdmin installieren" "Verwenden Sie die cfx-server-data")
 bashSelect
 deployType=$( echo $? )
 
-runCommand "apt -y update" "updating"
+runCommand "apt -y update" "Updatet"
 
-runCommand "apt -y upgrade " "upgrading"
+runCommand "apt -y upgrade " "Upgrade wird durchgeführt"
 
-runCommand "apt install -y wget git curl dos2unix net-tools sed screen tmux xz-utils lsof" "installing necessary packages"
+runCommand "apt install -y wget git curl dos2unix net-tools sed screen tmux xz-utils lsof" "Installation notwendiger Pakete"
 
 clear
 
@@ -142,12 +142,12 @@ dir=/home/FiveM
 lsof -i :40120
 if [[ $( echo $? ) == 0 ]]; then
 
-  status "It looks like there already is something running on the default TxAdmin port. Can we stop/kill it?" "/"
-  export OPTIONS=("Kill PID on port 40120" "Exit the script")
+  status "Es sieht so aus, als ob auf dem Standard-TxAdmin-Port bereits etwas läuft. Können wir es stoppen?" "/"
+  export OPTIONS=("PID auf Port 40120 beenden" "Beenden Sie das Skript")
   bashSelect
   case $? in
     0 )
-      status "killing PID on 40120"
+      status "PID auf 40120 Stoppen"
       runCommand "apt -y install psmisc"
 	  runCommand "fuser -4 40120/tcp -k"
       ;;
@@ -158,12 +158,12 @@ if [[ $( echo $? ) == 0 ]]; then
 fi
 
 if [[ -e $dir ]]; then
-  status "It looks like there already is a $dir directory. Can we remove it?" "/"
-  export OPTIONS=("Remove everything in $dir" "Exit the script ")
+  status "It looks like there already is a $dir Ordner, Können wir es Löschen?" "/"
+  export OPTIONS=("Alles Löschen in $dir" "Beenden Sie das Skript ")
   bashSelect
   case $? in
     0 )
-      status "Deleting $dir"
+      status "Lösche $dir"
       runCommand "rm -r $dir"
       ;;
     1 )
@@ -176,13 +176,13 @@ if [[ $phpmaInstall == 0 ]]; then
   bash <(curl -s https://raw.githubusercontent.com/JulianGransee/PHPMyAdminInstaller/main/install.sh) -s
 fi
 
-runCommand "mkdir -p $dir/server" "Create directorys for the FiveM server"
+runCommand "mkdir -p $dir/server" "Erstellen Sie Verzeichnisse für den FiveM-Server"
 runCommand "cd $dir/server/"
 
 
-runCommand "wget $runtime_link" "FxServer is getting downloaded"
+runCommand "wget $runtime_link" "FxServer wird heruntergeladen"
 
-runCommand "tar xf fx.tar.xz" "unpacking FxServer archive"
+runCommand "tar xf fx.tar.xz" "Entpacken des FxServer-Archivs"
 runCommand "rm fx.tar.xz"
 
 case $deployType in
@@ -193,7 +193,7 @@ case $deployType in
     ;;
 esac
 
-status "Creating start, stop and access script"
+status "Erstellen eines Start-, Stopp- und Zugriffsskripts"
 cat << EOF > $dir/start.sh
 #!/bin/bash
 red="\e[0;91m"
@@ -203,9 +203,9 @@ reset="\e[0m"
 port=\$(lsof -Pi :40120 -sTCP:LISTEN -t)
 if [ -z "\$port" ]; then
     screen -dmS fivem sh $dir/server/run.sh
-    echo -e "\n\${green}TxAdmin was started!\${reset}"
+    echo -e "\n\${green}TxAdmin wurde gestartet!\${reset}"
 else
-    echo -e "\n\${red}The default \${reset}\${bold}TxAdmin\${reset}\${red} is already in use -> Is a \${reset}\${bold}FiveM Server\${reset}\${red} already started?\${reset}"
+    echo -e "\n\${red}Das Standard \${reset}\${bold}TxAdmin\${reset}\${red} ist schon in benutzung -> ist ein \${reset}\${bold}FiveM Server\${reset}\${red} Schon Gestartet?\${reset}"
 fi
 EOF
 runCommand "chmod +x $dir/start.sh"
@@ -216,12 +216,12 @@ runCommand "chmod +x $dir/attach.sh"
 runCommand "echo \"screen -XS fivem quit\" > $dir/stop.sh"
 runCommand "chmod +x $dir/stop.sh"
 
-status "Create crontab to autostart txadmin (recommended)"
-  export OPTIONS=("yes" "no")
+status "Erstellen Sie eine Crontab, um txadmin automatisch zu starten (empfohlen)"
+  export OPTIONS=("ja" "nein")
   bashSelect
   case $? in
     0 )
-      status "Create crontab entry"
+      status "Crontab-Eintrag erstellen"
       runCommand "echo \"@reboot         root    cd /home/FiveM/ && bash start.sh\" >> /etc/crontab"
       ;;
     1 )
@@ -243,7 +243,7 @@ if [[ -z "$port" ]]; then
     while true; do
       while read -r line; do
         echo $line
-        if [[ "$line" == *"able to access"* ]]; then
+        if [[ "$line" == *"zugreifen können"* ]]; then
           break 2
         fi
       done < /tmp/fivem.log
@@ -280,7 +280,7 @@ if [[ -z "$port" ]]; then
 
     echo -e "\n${green}TxAdmin Webinterface: ${reset}${blue}${txadmin}\n"
 
-    echo -e "${green}Pin: ${reset}${blue}${pin:(-4)}${reset}${green} (use it in the next 5 minutes!)"
+    echo -e "${green}Pin: ${reset}${blue}${pin:(-4)}${reset}${green} (Benutze es in den nächsten 5 Minuten!)"
 
     echo -e "\n${green}Server-Data Pfad: ${reset}${blue}$dir/server-data${reset}"
 
@@ -306,5 +306,5 @@ FiveM MySQL-Data
     sleep 2
 
 else
-    echo -e "\n${red}The default ${reset}${bold}TxAdmin${reset}${red} port is already in use -> Is a ${reset}${bold}FiveM Server${reset}${red} already running?${reset}"
+    echo -e "\n${red}Der Standard ${reset}${bold}TxAdmin${reset}${red} Port wird bereits Verwendet -> ist ein ${reset}${bold}FiveM Server${reset}${red} Schon gestartet?${reset}"
 fi
