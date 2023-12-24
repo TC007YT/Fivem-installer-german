@@ -1,20 +1,17 @@
-# TxAdmin install script
+# TxAdmin-Installationsskript
 
-Simple bash script to install [TxAdmin]() ( and [MariaDB]() + [PHPMyAdmin]()) on Debian based systems.
+Einfaches Bash-Skript zum Installieren von [TxAdmin]() (und [MariaDB]() + [PHPMyAdmin]()) auf Debian-basierten Systemen.
 
 ## Installation
 
-Run the following script (interactive) to open a menu to choose what you want.
+Führen Sie das folgende Skript (interactive) aus, um ein Menü zu öffnen und auszuwählen, was Sie möchten.
 
-```bash
-bash <(curl -s https://raw.githubusercontent.com/Twe3x/fivem-installer/main/setup.sh)
-```
+„Bash
+bash <(curl -s https://raw.githubusercontent.com/Twe3x/fünfm-installer/main/setup.sh)
+„
 
->After running this, you can choose between installing or updating FiveM (use the arrow keys to navigate and press enter to choose)
+>Nachdem Sie dies ausgeführt haben, können Sie zwischen der Installation oder Aktualisierung von FiveM wählen (verwenden Sie die Pfeiltasten zum Navigieren und drücken Sie die Eingabetaste, um auszuwählen).
 >
-> * install FiveM  ➡️ this is just going to setup TxAdmin
-> * update FiveM ➡️ this is going to update the TxAdmin installation (not yet recommended)
-> * do nothing ➡️ exit
-
-## ❗LICENSE:
-This software is distributed under the [ license](/LICENSE).
+> * FiveM installieren ➡️ Dies dient lediglich der Einrichtung von TxAdmin
+> * FiveM aktualisieren ➡️ Dadurch wird die TxAdmin-Installation aktualisiert (noch nicht empfohlen)
+> * nichts tun ➡️ beenden
