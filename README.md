@@ -7,7 +7,7 @@ Einfaches Bash-Skript zum Installieren von [TxAdmin]() (und [MariaDB]() + [PHPMy
 Führen Sie das folgende Skript (interactive) aus, um ein Menü zu öffnen und auszuwählen, was Sie möchten.
 
 ```Bash
-bash <(curl -s (https://raw.githubusercontent.com/TC007YT/Fivem-installer-german/main/setup.sh)
+bash <(curl -s https://raw.githubusercontent.com/TC007YT/Fivem-installer-german/main/setup.sh)
 ```
 
 >Nachdem Sie dies ausgeführt haben, können Sie zwischen der Installation oder Aktualisierung von FiveM wählen (verwenden Sie die Pfeiltasten zum Navigieren und drücken Sie die Eingabetaste, um auszuwählen).
