@@ -23,7 +23,7 @@ runCommand(){
     eval $COMMAND;
     BASH_CODE=$?
     if [ $BASH_CODE -ne 0 ]; then
-      echo -e "${red}An error occurred:${reset} ${white}${COMMAND}${reset}${red} returned${reset} ${white}${BASH_CODE}${reset}"
+      echo -e "${red}Ein Fehler ist aufgetreten:${reset} ${white}${COMMAND}${reset}${red} returned${reset} ${white}${BASH_CODE}${reset}"
       exit ${BASH_CODE}
     fi
 }
@@ -32,7 +32,7 @@ source <(curl -s https://raw.githubusercontent.com/GermanJag/BashSelect.sh/main/
 clear
 
 
-status "Select the alpine directory"
+status "Wählen Sie das Alpine Verzeichnis aus"
 readarray -t directorys <<<$(find / -name "alpine")
 export OPTIONS=(${directorys[*]})
 
@@ -44,12 +44,12 @@ dir=${directorys[$?]}/..
 lsof -i :40120
 if [[ $( echo $? ) == 0 ]]; then
 
-  status "It looks like there is something running on the default TxAdmin port. Can we stop/kill it?" "/"
-  export OPTIONS=("Kill PID on port 40120" "Exit the script")
+  status "Es sieht so aus, als ob auf dem Standard-TxAdmin-Port etwas läuft. Können wir es stoppen?" "/"
+  export OPTIONS=("PID auf Port 40120 beenden" "Beenden Sie das Skript")
   bashSelect
   case $? in
     0 )
-      status "killing PID on 40120"
+      status "PID auf 40120 Beenden"
       runCommand "apt -y install psmisc"
 	  runCommand "fuser -4 40120/tcp -k"
       ;;
@@ -59,19 +59,19 @@ if [[ $( echo $? ) == 0 ]]; then
   esac
 fi
 
-echo "${red}Deleting ${nc}alpine"
+echo "${red}Lösche ${nc}alpine"
 sleep 1
 rm -rf $dir/alpine
 clear
 
-echo "${red}Deleting ${nc}run.sh"
+echo "${red}Lösche ${nc}run.sh"
 sleep 1
 rm -f $dir/run.sh
 clear
 
-echo "Downloading ${yellow}fx.tar.xz${nc}"
+echo "Downloade ${yellow}fx.tar.xz${nc}"
 wget --directory-prefix=$dir $1
-echo "${green}Success${nc}"
+echo "${green}Erfolgreich${nc}"
 
 sleep 1
 clear
@@ -79,7 +79,7 @@ clear
 echo "Unpacking ${yellow}fx.tar.xz${nc}"
 tar xf $dir/fx.tar.xz -C $dir
 
-echo "${green}Success${nc}"
+echo "${green}Erolgreich${nc}"
 sleep 1
 
 clear
@@ -90,4 +90,4 @@ echo "${red}Deleting ${nc}fx.tar.xz"
 sleep 1
 clear
 
-echo "${green}update success${nc}"
+echo "${green}update Erolgreich${nc}"
