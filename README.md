@@ -1,10 +1,11 @@
-# TxAdmin-Installationsskript (Original: https://github.com/Twe3x/fivem-installer )
+# TxAdmin-Installationsskript 
+(Original: https://github.com/Twe3x/fivem-installer )
 
 Einfaches Bash-Skript zum Installieren von [TxAdmin]() (und [MariaDB]() + [PHPMyAdmin]()) auf Debian-basierten Systemen.
 
 ## Installation
 
-Führen Sie das folgende Skript (interactive) aus, um ein Menü zu öffnen und auszuwählen, was Sie möchten.
+Führen Sie das folgende Skript (Interaktiv) aus, um ein Menü zu öffnen und auszuwählen, was Sie möchten.
 
 ```Bash
 bash <(curl -s https://raw.githubusercontent.com/TC007YT/Fivem-installer-german/main/setup.sh)
