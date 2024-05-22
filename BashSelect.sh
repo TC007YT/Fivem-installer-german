@@ -19,7 +19,7 @@ select_option() {
   # Funktion, um das Menü anzuzeigen
   show_menu() {
     for i in "${!options[@]}"; do
-      if [ $i -eq $selected ]; then
+      if [ "$i" -eq "$selected" ]; then
         printf "${SELECTED}> %s${NORMAL}\n" "${options[i]}"
       else
         printf "  %s\n" "${options[i]}"
@@ -39,14 +39,14 @@ select_option() {
       # Pfeil nach oben
       A)
         selected=$((selected - 1))
-        if [ $selected -lt 0 ]; then
+        if [ "$selected" -lt 0 ]; then
           selected=$((${#options[@]} - 1))
         fi
         ;;
       # Pfeil nach unten
       B)
         selected=$((selected + 1))
-        if [ $selected -ge ${#options[@]}; then
+        if [ "$selected" -ge ${#options[@]}; then
           selected=0
         fi
         ;;
@@ -58,7 +58,7 @@ select_option() {
   done
 
   # Rückgabe der ausgewählten Option
-  echo ${options[$selected]}
+  echo "${options[$selected]}"
 }
 
 # Beispiel für die Verwendung der Funktion
