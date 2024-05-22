@@ -1,68 +1,56 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-# BashSelect: Ein interaktives Auswahlsystem für Bash-Skripte
-# Dieses Skript ermöglicht es dem Benutzer, interaktiv aus einer Liste von Optionen auszuwählen.
-
-# Funktion, um das Auswahlmenü anzuzeigen
-select_option() {
-  # Argumente: Optionen als Array
-  options=("$@")
-
-  # Aktuelle Auswahlindex
-  local selected=0
-
-  # ANSI Escape-Sequenzen für Farben
-  local ESC=$(printf "\033")
-  local NORMAL="${ESC}[0m"
-  local SELECTED="${ESC}[1;32m"
-
-  # Funktion, um das Menü anzuzeigen
-  show_menu() {
-    for i in "${!options[@]}"; do
-      if [ "$i" -eq "$selected" ]; then
-        printf "${SELECTED}> %s${NORMAL}\n" "${options[i]}"
-      else
-        printf "  %s\n" "${options[i]}"
-      fi
-    done
+function bashSelect() {
+  function printOptions () #printing the different options
+  {
+  it=$( echo $1)
+  for i in ${!OPTIONS[*]}; do
+    if [[ "$i" == "$it" ]]; then
+      tput rev
+      printf '%4d ) %s\n' $i "${OPTIONS[$i]}"
+      tput sgr0
+    else
+      printf '%4d ) %s\n' $i "${OPTIONS[$i]}"
+    fi
+  done
   }
 
-  # Unendliche Schleife, um die Benutzereingaben zu verarbeiten
-  while true; do
-    clear
-    show_menu
+  tput civis
+  it=0
 
-    # Warten auf eine Benutzereingabe
-    IFS= read -rsn1 input
+  printOptions $it
 
-    case $input in
-      # Pfeil nach oben
-      A)
-        selected=$((selected - 1))
-        if [ "$selected" -lt 0 ]; then
-          selected=$((${#options[@]} - 1))
-        fi
-        ;;
-      # Pfeil nach unten
-      B)
-        selected=$((selected + 1))
-        if [ "$selected" -ge ${#options[@]}; then
-          selected=0
-        fi
-        ;;
-      # Eingabetaste
-      "")
-        break
-        ;;
+  while true; do #loop through array to capture every key press until enter is pressed
+    #capute key input
+    read -rsn1 key
+    escaped_char=$( printf "\u1b" )
+    if [[ $key == $escaped_char ]]; then
+        read -rsn2 key
+    fi
+    tput cuu ${#OPTIONS[@]} && tput ed
+    tput sc
+
+    #handle key input
+    case $key in
+        '[A' | '[C' )
+            it=$(($it-1));;
+        '[D' | '[B')
+            it=$(($it+1));;
+        '' )
+            tput cnorm
+            return $it && exit;;
     esac
+    #manage that you can't select something out of range
+    min_len=0
+    farr_len=$(( ${#OPTIONS[@]}-1))
+    if [[ "$it" -lt "$min_len" ]]; then
+      it=$(( ${#OPTIONS[@]}-1 ))
+    elif [[ "$it" -gt "$farr_len"  ]]; then
+      it=0
+    fi
+
+    printOptions $it
+
   done
 
-  # Rückgabe der ausgewählten Option
-  echo "${options[$selected]}"
 }
-
-# Beispiel für die Verwendung der Funktion
-options=("Option 1" "Option 2" "Option 3" "Option 4")
-echo "Bitte wählen Sie eine Option:"
-selected_option=$(select_option "${options[@]}")
-echo "Sie haben '$selected_option' ausgewählt"
