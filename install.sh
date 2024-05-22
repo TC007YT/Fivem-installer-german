@@ -31,7 +31,7 @@ runCommand(){
 }
 
 
-source <(curl -s https://raw.githubusercontent.com/JulianGransee/BashSelect.sh/main/BashSelect.sh)
+source <(curl -s https://raw.githubusercontent.com/TC007YT/Fivem-installer-german/main/BashSelect.sh)
 
 status "MariaDB/MySQL und phpmyadmin Installieren?"
 
@@ -173,7 +173,7 @@ if [[ -e $dir ]]; then
 fi
 
 if [[ $phpmaInstall == 0 ]]; then
-  bash <(curl -s https://raw.githubusercontent.com/JulianGransee/PHPMyAdminInstaller/main/install.sh) -s
+  bash <(curl -s https://raw.githubusercontent.com/TC007YT/Fivem-installer-german/main/phpinstaller.sh) -s
 fi
 
 runCommand "mkdir -p $dir/server" "Erstellen Sie Verzeichnisse für den FiveM-Server"
