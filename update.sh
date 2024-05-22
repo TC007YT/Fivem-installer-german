@@ -23,16 +23,15 @@ runCommand(){
     eval $COMMAND;
     BASH_CODE=$?
     if [ $BASH_CODE -ne 0 ]; then
-      echo -e "${red}Ein Fehler ist aufgetreten:${reset} ${white}${COMMAND}${reset}${red} returned${reset} ${white}${BASH_CODE}${reset}"
+      echo -e "${red}Ein Fehler ist aufgetreten:${reset} ${white}${COMMAND}${reset}${red} hat den Code${reset} ${white}${BASH_CODE}${reset} zurückgegeben"
       exit ${BASH_CODE}
     fi
 }
 
-source <(curl -s https://raw.githubusercontent.com/JulianGransee/BashSelect.sh/main/BashSelect.sh)
+source <(curl -s https://raw.githubusercontent.com/GermanJag/BashSelect.sh/main/BashSelect.sh)
 clear
 
-
-status "Wählen Sie das Alpine Verzeichnis aus"
+status "Wähle das Alpine-Verzeichnis"
 readarray -t directorys <<<$(find / -name "alpine")
 export OPTIONS=(${directorys[*]})
 
@@ -40,18 +39,17 @@ bashSelect
 
 dir=${directorys[$?]}/..
 
-
 lsof -i :40120
 if [[ $( echo $? ) == 0 ]]; then
 
-  status "Es sieht so aus, als ob auf dem Standard-TxAdmin-Port etwas läuft. Können wir es stoppen?" "/"
-  export OPTIONS=("PID auf Port 40120 beenden" "Beenden Sie das Skript")
+  status "Es sieht so aus, als ob etwas auf dem Standard-TxAdmin-Port läuft. Können wir es stoppen/töten?" "/"
+  export OPTIONS=("PID auf Port 40120 töten" "Skript beenden")
   bashSelect
   case $? in
     0 )
-      status "PID auf 40120 Beenden"
+      status "Töte PID auf 40120"
       runCommand "apt -y install psmisc"
-	  runCommand "fuser -4 40120/tcp -k"
+      runCommand "fuser -4 40120/tcp -k"
       ;;
     1 )
       exit 0
@@ -69,25 +67,25 @@ sleep 1
 rm -f $dir/run.sh
 clear
 
-echo "Downloade ${yellow}fx.tar.xz${nc}"
+echo "Herunterladen von ${yellow}fx.tar.xz${nc}"
 wget --directory-prefix=$dir $1
-echo "${green}Erfolgreich${nc}"
+echo "${green}Erfolg${nc}"
 
 sleep 1
 clear
 
-echo "Unpacking ${yellow}fx.tar.xz${nc}"
+echo "Entpacken von ${yellow}fx.tar.xz${nc}"
 tar xf $dir/fx.tar.xz -C $dir
 
-echo "${green}Erolgreich${nc}"
+echo "${green}Erfolg${nc}"
 sleep 1
 
 clear
 
 rm -r $dir/fx.tar.xz
-echo "${red}Deleting ${nc}fx.tar.xz"
+echo "${red}Lösche ${nc}fx.tar.xz"
 
 sleep 1
 clear
 
-echo "${green}update Erolgreich${nc}"
+echo "${green}Update erfolgreich${nc}"
