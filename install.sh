@@ -7,7 +7,7 @@ reset="\e[0m"
 
 runtime_link=$1
 
-source <(curl -s https://raw.githubusercontent.com/JulianGransee/BashSelect.sh/main/BashSelect.sh)
+source <(curl -s https://raw.githubusercontent.com/TC007YT/Fivem-installer-german/main/BashSelect.sh)
 clear
 status(){
   clear
