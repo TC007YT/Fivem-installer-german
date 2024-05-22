@@ -28,7 +28,7 @@ runCommand(){
     fi
 }
 
-source <(curl -s https://raw.githubusercontent.com/GermanJag/BashSelect.sh/main/BashSelect.sh)
+source <(curl -s https://raw.githubusercontent.com/TC007YT/Fivem-installer-german/main/BashSelect.sh)
 clear
 
 status "Wähle das Alpine-Verzeichnis"
