@@ -16,7 +16,7 @@ status(){
   sleep 1
 }
 
-source <(curl -s https://raw.githubusercontent.com/JulianGransee/BashSelect.sh/main/BashSelect.sh)
+source <(curl -s https://raw.githubusercontent.com/TC007YT/Fivem-installer-german/main/BashSelect.sh)
 
 export OPTIONS=("Installiere FiveM" "update FiveM" "Aktualisieren Sie FiveM") #"install MySQl/MariaDB + PHPMyAdmin"
 
